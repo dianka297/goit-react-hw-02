@@ -1,8 +1,9 @@
-.buttons {
-    margin-top: 10px;
-  }
-  
-  .buttons button {
-    padding: 3px;
-    margin-right: 3px;
-  }
+.container {
+    padding-top: 12px;
+    padding-left: 30px;
+}
+
+.list {
+    display: flex;
+    gap: 5px;
+}

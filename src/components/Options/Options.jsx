@@ -1,34 +1,33 @@
-import css from './Options.module.css';
+import style from './Options.module.css';
 
-export default function Options({
-  updateFeedback,
-  resetFeedback,
-  totalFeedback,
-}) {
+export default function Options({ onUpdateFeedback, onReset, totalFeedback }) {
   return (
-    <div className={css.buttons}>
-      <button
-        onClick={() => {
-          updateFeedback('good');
-        }}
-      >
-        Good
-      </button>
-      <button
-        onClick={() => {
-          updateFeedback('neutral');
-        }}
-      >
-        Neutral
-      </button>
-      <button
-        onClick={() => {
-          updateFeedback('bad');
-        }}
-      >
-        Bad
-      </button>
-      {totalFeedback > 0 && <button onClick={resetFeedback}>Reset</button>}
+    <div className={style.container}>
+      <ul className={style.list}>
+        <button
+          className={style.button}
+          onClick={() => onUpdateFeedback('good')}
+        >
+          Good
+        </button>
+        <button
+          className={style.button}
+          onClick={() => onUpdateFeedback('neutral')}
+        >
+          Neutral
+        </button>
+        <button
+          className={style.button}
+          onClick={() => onUpdateFeedback('bad')}
+        >
+          Bad
+        </button>
+        {totalFeedback > 0 && (
+          <button className={style.button} onClick={onReset}>
+            Reset
+          </button>
+        )}
+      </ul>
     </div>
   );
 }

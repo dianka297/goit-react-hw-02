@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import Description from '../Description/Description';
-import Options from '../Options/Options';
-import Feedback from '../Feedback/Feedback';
-import Notification from '../Notification/Notification';
+import Description from './components/Description/Description';
+import Options from './components/Options/Options';
+import Feedback from './components/Feedback/Feedback';
+import Notification from './components/Notification/Notification';
+import { useEffect, useState } from 'react';
 
 export default function App() {
-  const [reviews, setReviews] = useState(() => {
-    const savedReviews = window.localStorage.getItem('saved-reviews');
-    if (savedReviews !== null) {
-      return JSON.parse(savedReviews);
+  const [values, setValues] = useState(() => {
+    const savedFeedback = window.localStorage.getItem('feedback');
+    if (savedFeedback !== null) {
+      return JSON.parse(savedFeedback);
     }
     return {
       good: 0,
@@ -18,39 +18,44 @@ export default function App() {
   });
 
   useEffect(() => {
-    window.localStorage.setItem('saved-reviews', JSON.stringify(reviews));
-  }, [reviews]);
-
-  const totalFeedback = reviews.good + reviews.neutral + reviews.bad;
+    window.localStorage.setItem('feedback', JSON.stringify(values));
+  }, [values]);
 
   const updateFeedback = feedbackType => {
-    setReviews({
-      ...reviews,
-      [feedbackType]: reviews[feedbackType] + 1,
-    });
+    setValues(prevValues => ({
+      ...prevValues,
+      [feedbackType]: prevValues[feedbackType] + 1,
+    }));
   };
 
-  const resetFeedback = () => {
-    setReviews({
+  const resetValue = () => {
+    setValues({
       good: 0,
       neutral: 0,
       bad: 0,
     });
   };
 
+  const totalFeedback = values.good + values.neutral + values.bad;
+  const positiveFeedback = Math.round((values.good / totalFeedback) * 100);
+
   return (
-    <div style={{ padding: '10px' }}>
+    <>
       <Description />
       <Options
-        updateFeedback={updateFeedback}
-        resetFeedback={resetFeedback}
+        onUpdateFeedback={updateFeedback}
+        onReset={resetValue}
         totalFeedback={totalFeedback}
       />
       {totalFeedback > 0 ? (
-        <Feedback reviews={reviews} totalFeedback={totalFeedback}></Feedback>
+        <Feedback
+          feedback={values}
+          positiveFeedback={positiveFeedback}
+          totalFeedback={totalFeedback}
+        />
       ) : (
         <Notification />
       )}
-    </div>
+    </>
   );
 }

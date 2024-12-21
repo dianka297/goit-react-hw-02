@@ -1,6 +1,10 @@
-.info {
-    margin-top: 10px;
-  }
-  .info p {
-    margin-top: 5px;
-  }
+.container {
+    padding-top: 12px;
+    padding-left: 30px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
